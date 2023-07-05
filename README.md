@@ -245,4 +245,4 @@ ZLUDA仓库：https://github.com/vosen/ZLUDA
 
 ![avatar](https://cdnjson.com/images/2023/07/02/image.png)
 
-比单纯的GPU还快！虽然这里没有控制变量，要控制的话应该在Linux下去测试，但是还是肉眼可见的快。
+比单纯的GPU还快！虽然这里没有控制变量，要控制的话应该在Linux下去测试，但是还是肉眼可见的快!
