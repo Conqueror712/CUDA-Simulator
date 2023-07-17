@@ -11,14 +11,14 @@ CUresult redirect_cuInit(unsigned int flags) {
     return actual_cuInit(flags);
 }
 
-// 创建 mock_cuInit 函数
+// mock_cuInit 函数
 CUresult mock_cuInit(unsigned int flags) {
     // 模拟CUDA调用
     printf("mock_cuInit called with flags %d\n", flags);
     return CUDA_SUCCESS;
 }
 
-// 创建一个 actual_cuInit 函数，用于调用 cuInit
+// actual_cuInit 函数，用于调用 cuInit
 CUresult actual_cuInit(unsigned int flags) {
     printf("actual_cuInit called with flags %d\n", flags);
     return cuInit(flags);
