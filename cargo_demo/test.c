@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <cuda.h>
 
+// 函数声明
+CUresult mock_cuInit(unsigned int flags);
+CUresult actual_cuInit(unsigned int flags);
+
 // 重定向函数
 CUresult redirect_cuInit(unsigned int flags) {
     mock_cuInit(flags);
