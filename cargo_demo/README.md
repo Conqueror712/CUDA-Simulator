@@ -4,7 +4,8 @@
 > No symbol "result" in current context.
 
 我猜测，可能的原因是：
-1. 你没有真正断点在cuDeviceGetAttribute调用处；
-2. 你设置的断点没有停在cuDeviceGetAttribute函数内。
+1. 没有真正断点在cuDeviceGetAttribute调用处；
+2. 设置的断点没有停在cuDeviceGetAttribute函数内；
+3. 云服务器上没有硬件。
 
 另外，我试着`break cuGetProcAddress_v2`，也是类似的结果。
