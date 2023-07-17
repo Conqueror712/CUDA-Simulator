@@ -29,10 +29,10 @@ typedef CUresult (*cuInitFunc)(unsigned int);
 
 int main() { 
     CUresult result;
-    cuInit cuInitPtr;
+    cuInitFunc cuInitPtr;
     
     int pi; 
-    int dev;  
+    int dev;
     cuDeviceGet(&dev, 0);
     
     char* cuInitStr = (char*)"cuInit";
