@@ -1,7 +1,27 @@
 #include <stdio.h>
 #include <cuda.h>
 
-typedef CUresult (*cuInitFunc)(unsigned int);
+// 重定向函数
+CUresult redirect_cuInit(unsigned int flags) {
+    mock_cuInit(flags);
+    return actual_cuInit(flags);
+}
+
+// 创建 mock_cuInit 函数
+CUresult mock_cuInit(unsigned int flags) {
+    // 模拟CUDA调用
+    printf("mock_cuInit called with flags %d\n", flags);
+    return CUDA_SUCCESS;
+}
+
+// 创建一个 actual_cuInit 函数，用于调用 cuInit
+CUresult actual_cuInit(unsigned int flags) {
+    printf("actual_cuInit called with flags %d\n", flags);
+    return cuInit(flags);
+}
+
+// 修改 cuInitPtr 的类型
+typedef CUresult (*cuInitFunc)(unsigned int) actual_cuInit, mock_cuInit, redirect_cuInit;
 
 int main() { 
     CUresult result;
@@ -13,19 +33,17 @@ int main() {
     
     char* cuInitStr = (char*)"cuInit";
     
-    result = cuGetProcAddress_v2(cuInitStr, (void **)&cuInitPtr, 0, 0, NULL);
-    if (result != CUDA_SUCCESS) {
-        printf("Error: cuGetProcAddress_v2 failed with error %d\n", result);
-        return -1;  
+    // 修改 test.c 中 cuInitPtr 的获取和调用
+    result = cuGetProcAddress_v2((char*)"redirect_cuInit", (void **)&cuInitPtr, 0, 0, NULL);
+
+    if (result == CUDA_SUCCESS) {      
+        cuInitPtr(0);        
     }
       
     result = cuDeviceGetAttribute(&pi, CU_DEVICE_ATTRIBUTE_MAX_THREADS_PER_BLOCK, dev); 
     
     if (result == CUDA_SUCCESS) {
         result = cuInitPtr(0);
-        // result = cuInitPtr(0x1);    // 添加 CUDA_IPC_ENABLE 标志
-        // result = cuInitPtr(0x2); // 添加 CUDA_SCHEDULE_AUTO 标志
-        // result = cuInitPtr(0x1 | 0x2);  // 同时启用IPC和自动线程调度
     }
     
     if (result != CUDA_SUCCESS) {
