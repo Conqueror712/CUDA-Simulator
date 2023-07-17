@@ -1,4 +1,4 @@
-## 2023.07.17当前问题：
+## 2023.07.16当前问题：
 在cuda-gdb中执行`break cuDeviceGetAttribute` && `file ./test` && `run`之后，
 虽然test.c文件中cuDeviceGetAttribute调用处有声明result变量，但还是无法`p result`，显示结果如下：
 > No symbol "result" in current context.
@@ -9,3 +9,8 @@
 3. 云服务器上没有硬件。
 
 另外，我试着`break cuGetProcAddress_v2`，也是类似的结果。
+
+## 2023.07.17当前问题：
+1. `g++ -o test test.c -L/usr/local/cuda-12.2/lib64 -lcudart -lcuda -ldl -I/usr/local/cuda-12.2/include`
+2. `gcc -fPIC -shared -o libredirect.so lib.c`
+3. `LD_PRELOAD=/home/lighthouse/ospp/CUDA-Practice/cargo_demo/libredirect.so ./test`报错Segmentation fault (core dumped)
