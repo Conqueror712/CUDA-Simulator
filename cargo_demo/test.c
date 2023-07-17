@@ -25,11 +25,11 @@ CUresult actual_cuInit(unsigned int flags) {
 }
 
 // 修改 cuInitPtr 的类型
-typedef CUresult (*cuInitFunc)(unsigned int) actual_cuInit, mock_cuInit, redirect_cuInit;
+typedef CUresult (*cuInitFunc)(unsigned int);
 
 int main() { 
     CUresult result;
-    cuInitFunc cuInitPtr;
+    cuInit cuInitPtr;
     
     int pi; 
     int dev;  
