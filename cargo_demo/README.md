@@ -11,6 +11,11 @@
 另外，我试着`break cuGetProcAddress_v2`，也是类似的结果。
 
 ## 2023.07.17当前问题：
+> C++版本
 1. `g++ -o test test.c -L/usr/local/cuda-12.2/lib64 -lcudart -lcuda -ldl -I/usr/local/cuda-12.2/include`
 2. `gcc -fPIC -shared -o libredirect.so lib.c`
-3. `LD_PRELOAD=/home/lighthouse/ospp/CUDA-Practice/cargo_demo/libredirect.so ./test`报错Segmentation fault (core dumped)
+3. `LD_PRELOAD=/home/lighthouse/ospp/CUDA-Practice/cargo_demo/libredirect.so` --> `./test`报错Segmentation fault (core dumped)
+
+> Rust版本
+`LD_PRELOAD=/home/lighthouse/ospp/CUDA-Practice/cargo_demo/target/release/libcuda.so` --> `./test`报错Segmentation fault (core dumped)
+By the way, `sudo ./test`报错Segmentation fault，即没有(core dumped)了...
