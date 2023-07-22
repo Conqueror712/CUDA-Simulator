@@ -7,7 +7,7 @@ use std::sync::Mutex;
 
 lazy_static::lazy_static! {
     static ref LIBCUDA: libloading::Library = unsafe {
-        libloading::Library::new(std::env::var("LIBCUDA").unwrap_or("/usr/lib/libcuda.so.1".to_string())).unwrap()
+        libloading::Library::new(std::env::var("LIBCUDA").unwrap_or("/usr/lib/wsl/lib/libcuda.so".to_string())).unwrap()
     };
     static ref TABEL: Mutex<HashMap<(CString, c_int, cuuint64_t), usize>> = Default::default();
 }
