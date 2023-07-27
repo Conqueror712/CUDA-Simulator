@@ -182,3 +182,108 @@ pub unsafe extern "C" fn cuGetExportTable(
     );
     result
 }
+
+// my work:
+
+pub unsafe extern "C" fn cudaMemcpy(
+    dst: *mut c_void,
+    src: *const c_void,
+    count: usize,
+    kind: cudaMemcpyKind,  
+) -> cudaError_t {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_void, *const c_void, usize, cudaMemcpyKind) -> cudaError_t,
+    > = LIBCUDA.get(b"cudaMemcpy").unwrap();
+
+    let result = func(dst, src, count, kind);
+    eprintln!(
+        "cudaMemcpy(dst: {:?}, src: {:?}, count: {:?}, kind: {:?}) -> {:?}",
+        dst,
+        src,
+        count,
+        kind,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cudaMalloc(
+    dev_ptr: *mut *mut c_void,
+    size: usize,
+    ) -> cudaError_t {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut *mut c_void, usize) -> cudaError_t,
+    > = LIBCUDA.get(b"cudaMalloc_v2").unwrap();
+    let result = func(dev_ptr, size);
+    eprintln!(
+        "cudaMalloc(dev_ptr: {:?}, size: {:?}) -> {:?}",
+        dev_ptr.as_ref(),
+        size,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cudaFree(
+    dev_ptr: *mut c_void,
+) -> cudaError_t {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_void) -> cudaError_t,
+    > = LIBCUDA.get(b"cudaFree_v2").unwrap();
+
+    let result = func(dev_ptr);
+    eprintln!(
+        "cudaFree(dev_ptr: {:?}) -> {:?}",
+        dev_ptr,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cudaGetDeviceCount(
+    count: *mut c_int
+) -> cudaError_t {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_int) -> cudaError_t,
+    > = LIBCUDA.get(b"cudaGetDeviceCount_v2").unwrap();
+
+    let result = func(count);
+    eprintln!(
+        "cudaGetDeviceCount(count: {:?}) -> {:?}",
+        count,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cudaGetDeviceProperties(
+    prop: *mut cudaDeviceProp, dev: c_int
+) -> cudaError_t {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut cudaDeviceProp, c_int) -> cudaError_t,
+    > = LIBCUDA.get(b"cudaGetDeviceProperties").unwrap();
+
+    let result = func(prop, dev);
+    eprintln!(
+        "cudaGetDeviceProperties(prop: {:?}, dev: {:?}) -> {:?}",
+        *prop,
+        dev, 
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cudaDeviceSynchronize(
+    // NULL
+) -> cudaError_t {
+    let func: libloading::Symbol<
+    unsafe extern "C" fn() -> cudaError_t,
+    > = LIBCUDA.get(b"cudaDeviceSynchronize_v2").unwrap();
+
+    let result = func();
+    eprintln!(
+        "cudaDeviceSynchronize() -> {:?}", 
+        result
+    );
+    result
+}
