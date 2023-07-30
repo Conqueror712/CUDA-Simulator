@@ -287,3 +287,33 @@ pub unsafe extern "C" fn cudaDeviceSynchronize(
     );
     result
 }
+
+pub unsafe extern "C" fn cudaGetLastError(
+    // NULL
+) -> cudaError_t {
+    let func: libloading::Symbol<
+    unsafe extern "C" fn() -> cudaError_t,
+    > = LIBCUDA.get(b"cudaGetLastError").unwrap();
+    
+    let result = func();
+    eprintln!(
+        "cudaGetLastError() -> {:?}", 
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cudaGetErrorString(
+    error: cudaError_t
+) -> *const c_char {
+    let func: libloading::Symbol<
+    unsafe extern "C" fn(cudaError_t) -> *const c_char,
+    > = LIBCUDA.get(b"cudaGetErrorString").unwrap();
+    let result = func(error);
+    eprintln!(
+        "cudaGetErrorString(error: {:?}) -> {:?}",
+        error,
+        CStr::from_ptr(result)
+    );
+    result
+}
