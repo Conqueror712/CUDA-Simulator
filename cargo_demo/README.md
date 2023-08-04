@@ -19,3 +19,6 @@
 > Rust版本
 `LD_PRELOAD=/home/lighthouse/ospp/CUDA-Practice/cargo_demo/target/release/libcuda.so` --> `./test`报错Segmentation fault (core dumped)
 By the way, `sudo ./test`报错Segmentation fault，即没有(core dumped)了...
+
+## 2023.08.04：
+上述问题已解决，正在着手编写需要的CUDA函数的Rust实现。
