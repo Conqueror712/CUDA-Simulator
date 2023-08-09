@@ -1,0 +1,5 @@
+[workspace]
+members = [
+  "cuda",
+  "cuda-sys",
+]
