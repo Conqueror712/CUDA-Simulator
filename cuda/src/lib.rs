@@ -14,6 +14,9 @@ lazy_static::lazy_static! {
     static ref TABEL: Mutex<HashMap<(CString, c_int, cuuint64_t), usize>> = Default::default();
 }
 
+pub type c_size_t = usize;
+pub type c_ssize_t = isize;
+
 #[no_mangle]
 pub unsafe extern "C" fn cuGetProcAddress_v2(
     symbol: *const c_char,
