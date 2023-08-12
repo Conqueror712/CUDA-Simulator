@@ -13,8 +13,8 @@ lazy_static::lazy_static! {
     static ref TABEL: Mutex<HashMap<(CString, c_int, cuuint64_t), usize>> = Default::default();
 }
 
-pub type c_size_t = usize;
-pub type c_ssize_t = isize;
+pub type CSizeT = usize;
+pub type CSsizeT = isize;
 
 #[no_mangle]
 pub unsafe extern "C" fn cuGetProcAddress_v2(
@@ -412,12 +412,12 @@ pub unsafe extern "C" fn cuDeviceGetUuid(
 }
 
 pub unsafe extern "C" fn cuDeviceGetTexture1DLinearMaxWidth(
-    max_width: *mut c_size_t,
+    max_width: *mut CSizeT,
     fmt: CUarray_format,
     num_channels: c_int,
 ) -> CUresult {
     let func: libloading::Symbol<
-        unsafe extern "C" fn(*mut c_size_t, CUarray_format, c_int) -> CUresult,
+        unsafe extern "C" fn(*mut CSizeT, CUarray_format, c_int) -> CUresult,
     > = LIBCUDA.get(b"cuDeviceGetTexture1DLinearMaxWidth").unwrap();
 
     let result = func(max_width, fmt, num_channels);
