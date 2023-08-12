@@ -1,5 +1,4 @@
 #![allow(non_snake_case)]
-use core::ffi::c_size_t;
 use libc::size_t;
 use cuda_sys::*;
 use std::collections::HashMap;
