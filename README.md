@@ -39,6 +39,8 @@
 
 另外，安装过程会伴随多次黑屏和重启，并且会需要一段时间，请耐心等待，会自动同步到WSL中；
 
+> 如果没同步就请`apt install nvidia-utils-535-server`
+
 值得一提的是，安装之前需要把旧版的带NVIDIA的软件全部卸载（除了NVIDIA Control Panel）
 
 ![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b3d5beaf549e4132992979a706d3110f~tplv-k3u1fbpfcp-watermark.image?)
