@@ -1,10 +1,11 @@
 #![allow(non_snake_case)]
+use core::ffi::c_size_t;
+use libc::size_t;
 use cuda_sys::*;
 use std::collections::HashMap;
 use std::ffi::{CStr, CString};
 use std::os::raw::{c_char, c_int, c_uint, c_void};
 use std::sync::Mutex;
-use core::ffi::c_size_t;
 
 lazy_static::lazy_static! {
     static ref LIBCUDA: libloading::Library = unsafe {
@@ -497,21 +498,6 @@ pub unsafe extern "C" fn cuDevicePrimaryCtxRetain(
     let func: libloading::Symbol<unsafe extern "C" fn(*mut CUcontext, CUdevice) -> CUresult> =
     LIBCUDA.get(b"cuDevicePrimaryCtxRetain").unwrap();
     
-    let result = func(pctx, dev);
-    eprintln!(
-        "cuDevicePrimaryCtxRetain(pctx: {:?}, dev: {:?}) -> {:?}",
-        pctx.as_ref(),
-        dev,
-        result
-    );
-    result
-}
-
-pub unsafe extern "C" fn cuDevicePrimaryCtxRetain(
-    pctx: *mut CUcontext, dev: CUdevice) -> CUresult {
-    let func: libloading::Symbol<unsafe extern "C" fn(*mut CUcontext, CUdevice) -> CUresult> =
-        LIBCUDA.get(b"cuDevicePrimaryCtxRetain").unwrap();
-
     let result = func(pctx, dev);
     eprintln!(
         "cuDevicePrimaryCtxRetain(pctx: {:?}, dev: {:?}) -> {:?}",
