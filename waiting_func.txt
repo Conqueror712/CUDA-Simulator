@@ -17,6 +17,7 @@ cuDeviceGetTexture1DLinearMaxWidth
 cuDeviceGetDefaultMemPool
 cuDeviceSetMemPool
 cuDeviceGetMemPool
+
 cuFlushGPUDirectRDMAWrites
 
 cuDevicePrimaryCtxRetain
@@ -24,6 +25,7 @@ cuDevicePrimaryCtxRelease
 cuDevicePrimaryCtxSetFlags
 cuDevicePrimaryCtxGetState
 cuDevicePrimaryCtxReset
+
 cuCtxCreate
 cuCtxGetFlags
 cuCtxSetCurrent
@@ -42,6 +44,7 @@ cuCtxSynchronize
 cuCtxResetPersistingL2Cache
 cuCtxPopCurrent
 cuCtxPushCurrent
+
 cuModuleLoad
 cuModuleLoadData
 cuModuleLoadFatBinary
@@ -51,6 +54,7 @@ cuModuleGetGlobal
 cuModuleGetTexRef
 cuModuleGetSurfRef
 cuModuleGetLoadingMode
+
 cuLibraryLoadData
 cuLibraryLoadFromFile
 cuLibraryUnload
