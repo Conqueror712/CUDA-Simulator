@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use std::ffi::{CStr, CString};
 use std::os::raw::{c_char, c_int, c_uint, c_void};
 use std::sync::Mutex;
+use core::ffi::c_size_t;
 
 lazy_static::lazy_static! {
     static ref LIBCUDA: libloading::Library = unsafe {
