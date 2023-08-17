@@ -3,8 +3,9 @@ use libc::size_t;
 use cuda_sys::*;
 use std::collections::HashMap;
 use std::ffi::{CStr, CString};
-use std::os::raw::{c_char, c_int, c_uint, c_void};
+use std::os::raw::{c_char, c_int, c_uint, c_void, c_ulonglong};
 use std::sync::Mutex;
+// use libloading::Library;
 
 lazy_static::lazy_static! {
     static ref LIBCUDA: libloading::Library = unsafe {
@@ -958,6 +959,637 @@ pub unsafe extern "C" fn cuModuleGetLoadingMode(
         mode.as_ref(),
         hmod,
         result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLibraryLoadData(
+    lib: *mut CUlibrary,
+    image: *const c_char,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUlibrary, *const c_char) -> CUresult,
+    > = LIBCUDA.get(b"cuLibraryLoadData").unwrap();
+
+    let result = func(lib, image);
+    eprintln!(
+        "cuLibraryLoadData(lib: {:?}, image: {:?}) -> {:?}",
+        lib,
+        CStr::from_ptr(image).to_string_lossy(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLibraryLoadFromFile(
+    lib: *mut CUlibrary,
+    filename: *const c_char,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUlibrary, *const c_char) -> CUresult,
+    > = LIBCUDA.get(b"cuLibraryLoadFromFile").unwrap();
+
+    let result = func(lib, filename);
+    eprintln!(
+        "cuLibraryLoadFromFile(lib: {:?}, filename: {:?}) -> {:?}",
+        lib,
+        CStr::from_ptr(filename).to_string_lossy(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLibraryUnload(
+    lib: CUlibrary,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(CUlibrary) -> CUresult,
+    > = LIBCUDA.get(b"cuLibraryUnload").unwrap();
+
+    let result = func(lib);
+    eprintln!(
+        "cuLibraryUnload(lib: {:?}) -> {:?}",
+        lib,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLibraryGetKernel(
+    hfunc: *mut CUfunction,
+    lib: CUlibrary,
+    name: *const c_char,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUfunction, CUlibrary, *const c_char) -> CUresult,
+    > = LIBCUDA.get(b"cuLibraryGetKernel").unwrap();
+
+    let result = func(hfunc, lib, name);
+    eprintln!(
+        "cuLibraryGetKernel(hfunc: {:?}, lib: {:?}, name: {:?}) -> {:?}",
+        hfunc.as_ref(),
+        lib,
+        CStr::from_ptr(name).to_string_lossy(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLibraryGetModule(
+    module: *mut CUmodule,
+    lib: CUlibrary,
+    name: *const c_char,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUmodule, CUlibrary, *const c_char) -> CUresult,
+    > = LIBCUDA.get(b"cuLibraryGetModule").unwrap();
+
+    let result = func(module, lib, name);
+    eprintln!(
+        "cuLibraryGetModule(module: {:?}, lib: {:?}, name: {:?}) -> {:?}",
+        module.as_ref(),
+        lib,
+        CStr::from_ptr(name).to_string_lossy(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLibraryGetGlobal(
+    dptr: *mut CUdeviceptr,
+    bytes: *mut usize,
+    lib: CUlibrary,
+    name: *const c_char,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, *mut usize, CUlibrary, *const c_char) -> CUresult,
+    > = LIBCUDA.get(b"cuLibraryGetGlobal").unwrap();
+
+    let result = func(dptr, bytes, lib, name);
+    eprintln!(
+        "cuLibraryGetGlobal(dptr: {:?}, bytes: {:?}, lib: {:?}, name: {:?}) -> {:?}",
+        dptr.as_ref(),
+        bytes.as_ref(),
+        lib,
+        CStr::from_ptr(name).to_string_lossy(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLibraryGetManaged(
+    p_devptr: *mut CUdeviceptr,
+    p_size: *mut usize,
+    lib: CUlibrary,
+    name: *const c_char,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, *mut usize, CUlibrary, *const c_char) -> CUresult,
+    > = LIBCUDA.get(b"cuLibraryGetManaged").unwrap();
+
+    let result = func(p_devptr, p_size, lib, name);
+    eprintln!(
+        "cuLibraryGetManaged(p_devptr: {:?}, p_size: {:?}, lib: {:?}, name: {:?}) -> {:?}",
+        p_devptr.as_ref(),
+        p_size.as_ref(),
+        lib,
+        CStr::from_ptr(name).to_string_lossy(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuKernelGetFunction(
+    hfunc: *mut CUfunction,
+    kernelName: *const c_char,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUfunction, *const c_char) -> CUresult,
+    > = LIBCUDA.get(b"cuKernelGetFunction").unwrap();
+
+    let result = func(hfunc, kernelName);
+    eprintln!(
+        "cuKernelGetFunction(hfunc: {:?}, kernelName: {:?}) -> {:?}",
+        hfunc.as_ref(),
+        CStr::from_ptr(kernelName).to_string_lossy(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuKernelGetAttribute(
+    pi: *mut std::os::raw::c_int,
+    attrib: CUfunction_attribute,
+    hfunc: CUfunction,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut std::os::raw::c_int, CUfunction_attribute, CUfunction) -> CUresult,
+    > = LIBCUDA.get(b"cuKernelGetAttribute").unwrap();
+
+    let result = func(pi, attrib, hfunc);
+    eprintln!(
+        "cuKernelGetAttribute(pi: {:?}, attrib: {:?}, hfunc: {:?}) -> {:?}",
+        pi.as_ref(),
+        attrib,
+        hfunc,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuKernelSetAttribute(
+    hfunc: CUfunction,
+    attrib: CUfunction_attribute,
+    value: std::os::raw::c_int,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(CUfunction, CUfunction_attribute, std::os::raw::c_int) -> CUresult,
+    > = LIBCUDA.get(b"cuKernelSetAttribute").unwrap();
+
+    let result = func(hfunc, attrib, value);
+    eprintln!(
+        "cuKernelSetAttribute(hfunc: {:?}, attrib: {:?}, value: {:?}) -> {:?}",
+        hfunc,
+        attrib,
+        value,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuKernelSetCacheConfig(
+    hfunc: CUfunction,
+    cacheConfig: CUfunc_cache,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(CUfunction, CUfunc_cache) -> CUresult,
+    > = LIBCUDA.get(b"cuKernelSetCacheConfig").unwrap();
+
+    let result = func(hfunc, cacheConfig);
+    eprintln!(
+        "cuKernelSetCacheConfig(hfunc: {:?}, cacheConfig: {:?}) -> {:?}",
+        hfunc,
+        cacheConfig,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLinkCreate(
+    numOptions: std::os::raw::c_uint,
+    options: *mut CUjit_option,
+    optionValues: *mut std::os::raw::c_void,
+    stateOut: *mut CUlinkState,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(
+            std::os::raw::c_uint,
+            *mut CUjit_option,
+            *mut std::os::raw::c_void,
+            *mut CUlinkState,
+        ) -> CUresult,
+    > = LIBCUDA.get(b"cuLinkCreate").unwrap();
+
+    let result = func(numOptions, options, optionValues, stateOut);
+    eprintln!(
+        "cuLinkCreate(numOptions: {:?}, options: {:?}, optionValues: {:?}, stateOut: {:?}) -> {:?}",
+        numOptions,
+        options.as_ref(),
+        optionValues,
+        stateOut.as_ref(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLinkAddData(
+    state: CUlinkState,
+    type_: CUjitInputType,
+    data: *mut std::os::raw::c_void,
+    size: std::os::raw::c_size_t,
+    name: *const c_char,
+    numOptions: std::os::raw::c_uint,
+    options: *mut CUjit_option,
+    optionValues: *mut std::os::raw::c_void,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(
+            CUlinkState,
+            CUjitInputType,
+            *mut std::os::raw::c_void,
+            std::os::raw::c_size_t,
+            *const c_char,
+            std::os::raw::c_uint,
+            *mut CUjit_option,
+            *mut std::os::raw::c_void,
+        ) -> CUresult,
+    > = LIBCUDA.get(b"cuLinkAddData").unwrap();
+
+    let result = func(
+        state, type_, data, size, name, numOptions, options, optionValues,
+    );
+    eprintln!(
+        "cuLinkAddData(state: {:?}, type_: {:?}, data: {:?}, size: {:?}, name: {:?}, numOptions: {:?}, options: {:?}, optionValues: {:?}) -> {:?}",
+        state,
+        type_,
+        data,
+        size,
+        CStr::from_ptr(name).to_string_lossy(),
+        numOptions,
+        options.as_ref(),
+        optionValues,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLinkAddFile(
+    state: CUlinkState,
+    type_: CUjitInputType,
+    path: *const c_char,
+    numOptions: std::os::raw::c_uint,
+    options: *mut CUjit_option,
+    optionValues: *mut std::os::raw::c_void,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(
+            CUlinkState,
+            CUjitInputType,
+            *const c_char,
+            std::os::raw::c_uint,
+            *mut CUjit_option,
+            *mut std::os::raw::c_void,
+        ) -> CUresult,
+    > = LIBCUDA.get(b"cuLinkAddFile").unwrap();
+
+    let result = func(
+        state, type_, path, numOptions, options, optionValues,
+    );
+    eprintln!(
+        "cuLinkAddFile(state: {:?}, type_: {:?}, path: {:?}, numOptions: {:?}, options: {:?}, optionValues: {:?}) -> {:?}",
+        state,
+        type_,
+        CStr::from_ptr(path).to_string_lossy(),
+        numOptions,
+        options.as_ref(),
+        optionValues,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLinkComplete(
+    state: CUlinkState,
+    cubinOut: *mut *mut std::os::raw::c_void,
+    sizeOut: *mut std::os::raw::c_size_t,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(
+            CUlinkState,
+            *mut *mut std::os::raw::c_void,
+            *mut std::os::raw::c_size_t,
+        ) -> CUresult,
+    > = LIBCUDA.get(b"cuLinkComplete").unwrap();
+
+    let result = func(state, cubinOut, sizeOut);
+    eprintln!(
+        "cuLinkComplete(state: {:?}, cubinOut: {:?}, sizeOut: {:?}) -> {:?}",
+        state,
+        cubinOut.as_ref(),
+        sizeOut.as_ref(),
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuLinkDestroy(
+    state: CUlinkState) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(CUlinkState) -> CUresult,
+    > = LIBCUDA.get(b"cuLinkDestroy").unwrap();
+
+    let result = func(state);
+    eprintln!("cuLinkDestroy(state: {:?}) -> {:?}", state, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemGetInfo(
+    free: *mut c_ulonglong,
+    total: *mut c_ulonglong,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_ulonglong, *mut c_ulonglong) -> CUresult,
+    > = LIBCUDA.get(b"cuMemGetInfo").unwrap();
+
+    let result = func(free, total);
+    eprintln!("cuMemGetInfo(free: {:?}, total: {:?}) -> {:?}", free, total, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemAllocManaged(
+    dptr: *mut CUdeviceptr,
+    size: c_ulonglong,
+    flags: c_uint,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, c_ulonglong, c_uint) -> CUresult,
+    > = LIBCUDA.get(b"cuMemAllocManaged").unwrap();
+
+    let result = func(dptr, size, flags);
+    eprintln!("cuMemAllocManaged(dptr: {:?}, size: {:?}, flags: {:?}) -> {:?}", dptr, size, flags, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemAlloc(
+    dptr: *mut CUdeviceptr,
+    size: c_ulonglong,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, c_ulonglong) -> CUresult,
+    > = LIBCUDA.get(b"cuMemAlloc").unwrap();
+
+    let result = func(dptr, size);
+    eprintln!("cuMemAlloc(dptr: {:?}, size: {:?}) -> {:?}", dptr, size, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemAllocPitch(
+    dptr: *mut CUdeviceptr,
+    pPitch: *mut c_ulonglong,
+    WidthInBytes: c_ulonglong,
+    Height: c_ulonglong,
+    ElementSizeBytes: c_ulonglong,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(
+            *mut CUdeviceptr,
+            *mut c_ulonglong,
+            c_ulonglong,
+            c_ulonglong,
+            c_ulonglong,
+        ) -> CUresult,
+    > = LIBCUDA.get(b"cuMemAllocPitch").unwrap();
+
+    let result = func(dptr, pPitch, WidthInBytes, Height, ElementSizeBytes);
+    eprintln!(
+        "cuMemAllocPitch(dptr: {:?}, pPitch: {:?}, WidthInBytes: {:?}, Height: {:?}, ElementSizeBytes: {:?}) -> {:?}",
+        dptr,
+        pPitch,
+        WidthInBytes,
+        Height,
+        ElementSizeBytes,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuMemFree(dptr: CUdeviceptr) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(CUdeviceptr) -> CUresult,
+    > = LIBCUDA.get(b"cuMemFree").unwrap();
+
+    let result = func(dptr);
+    eprintln!("cuMemFree(dptr: {:?}) -> {:?}", dptr, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemGetAddressRange(
+    pbase: *mut *mut c_void,
+    psize: *mut c_ulonglong,
+    dptr: CUdeviceptr,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut *mut c_void, *mut c_ulonglong, CUdeviceptr) -> CUresult,
+    > = LIBCUDA.get(b"cuMemGetAddressRange").unwrap();
+
+    let result = func(pbase, psize, dptr);
+    eprintln!(
+        "cuMemGetAddressRange(pbase: {:?}, psize: {:?}, dptr: {:?}) -> {:?}",
+        pbase,
+        psize,
+        dptr,
+        result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuMemFreeHost(p: *mut c_void) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_void) -> CUresult,
+    > = LIBCUDA.get(b"cuMemFreeHost").unwrap();
+
+    let result = func(p);
+    eprintln!("cuMemFreeHost(p: {:?}) -> {:?}", p, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemHostAlloc(
+    pp: *mut *mut c_void,
+    bytesize: usize,
+    flags: c_uint,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut *mut c_void, usize, c_uint) -> CUresult,
+    > = LIBCUDA.get(b"cuMemHostAlloc").unwrap();
+
+    let result = func(pp, bytesize, flags);
+    eprintln!("cuMemHostAlloc(pp: {:?}, bytesize: {:?}, flags: {:?}) -> {:?}", pp, bytesize, flags, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemHostGetDevicePointer(
+    pdptr: *mut CUdeviceptr,
+    p: *mut c_void,
+    flags: c_uint,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, *mut c_void, c_uint) -> CUresult,
+    > = LIBCUDA.get(b"cuMemHostGetDevicePointer").unwrap();
+
+    let result = func(pdptr, p, flags);
+    eprintln!("cuMemHostGetDevicePointer(pdptr: {:?}, p: {:?}, flags: {:?}) -> {:?}", pdptr, p, flags, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemHostGetFlags(
+    pFlags: *mut c_uint,
+    p: *mut c_void,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_uint, *mut c_void) -> CUresult,
+    > = LIBCUDA.get(b"cuMemHostGetFlags").unwrap();
+
+    let result = func(pFlags, p);
+    eprintln!("cuMemHostGetFlags(pFlags: {:?}, p: {:?}) -> {:?}", pFlags, p, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemHostRegister(
+    p: *mut c_void,
+    bytesize: usize,
+    flags: c_uint,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_void, usize, c_uint) -> CUresult,
+    > = LIBCUDA.get(b"cuMemHostRegister").unwrap();
+
+    let result = func(p, bytesize, flags);
+    eprintln!("cuMemHostRegister(p: {:?}, bytesize: {:?}, flags: {:?}) -> {:?}", p, bytesize, flags, result);
+    result
+}
+
+pub unsafe extern "C" fn cuMemHostUnregister(
+    p: *mut c_void) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_void) -> CUresult,
+    > = LIBCUDA.get(b"cuMemHostUnregister").unwrap();
+
+    let result = func(p);
+    eprintln!("cuMemHostUnregister(p: {:?}) -> {:?}", p, result);
+    result
+}
+
+pub unsafe extern "C" fn cuPointerGetAttribute(
+    data: *mut c_void,
+    attribute: u32,
+    ptr: CUdeviceptr,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut c_void, u32, CUdeviceptr) -> CUresult,
+    > = LIBCUDA.get(b"cuPointerGetAttribute").unwrap();
+
+    let result = func(data, attribute, ptr);
+    eprintln!(
+        "cuPointerGetAttribute(data: {:?}, attribute: {:?}, ptr: {:?}) -> {:?}",
+        data, attribute, ptr, result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuPointerGetAttributes(
+    numAttributes: u32,
+    attributes: *mut u32,
+    data: *mut *mut c_void,
+    ptrs: *mut CUdeviceptr,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(u32, *mut u32, *mut *mut c_void, *mut CUdeviceptr) -> CUresult,
+    > = LIBCUDA.get(b"cuPointerGetAttributes").unwrap();
+
+    let result = func(numAttributes, attributes, data, ptrs);
+    eprintln!(
+        "cuPointerGetAttributes(numAttributes: {:?}, attributes: {:?}, data: {:?}, ptrs: {:?}) -> {:?}",
+        numAttributes, attributes, data, ptrs, result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuMemAllocAsync(
+    dptr: *mut CUdeviceptr,
+    bytesize: usize,
+    stream: CUstream,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, usize, CUstream) -> CUresult,
+    > = LIBCUDA.get(b"cuMemAllocAsync").unwrap();
+
+    let result = func(dptr, bytesize, stream);
+    eprintln!(
+        "cuMemAllocAsync(dptr: {:?}, bytesize: {:?}, stream: {:?}) -> {:?}",
+        dptr, bytesize, stream, result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuMemAllocAsync(
+    dptr: *mut CUdeviceptr,
+    bytesize: usize,
+    stream: CUstream,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, usize, CUstream) -> CUresult,
+    > = LIBCUDA.get(b"cuMemAllocAsync").unwrap();
+
+    let result = func(dptr, bytesize, stream);
+    eprintln!(
+        "cuMemAllocAsync(dptr: {:?}, bytesize: {:?}, stream: {:?}) -> {:?}",
+        dptr, bytesize, stream, result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuMemAllocFromPoolAsync(
+    dptr: *mut CUdeviceptr,
+    pool: CUmemPool,
+    bytesize: usize,
+    stream: CUstream,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, CUmemPool, usize, CUstream) -> CUresult,
+    > = LIBCUDA.get(b"cuMemAllocFromPoolAsync").unwrap();
+
+    let result = func(dptr, pool, bytesize, stream);
+    eprintln!(
+        "cuMemAllocFromPoolAsync(dptr: {:?}, pool: {:?}, bytesize: {:?}, stream: {:?}) -> {:?}",
+        dptr, pool, bytesize, stream, result
+    );
+    result
+}
+
+pub unsafe extern "C" fn cuMemAllocFromPoolAsync(
+    dptr: *mut CUdeviceptr,
+    pool: CUmemPool,
+    bytesize: usize,
+    stream: CUstream,
+) -> CUresult {
+    let func: libloading::Symbol<
+        unsafe extern "C" fn(*mut CUdeviceptr, CUmemPool, usize, CUstream) -> CUresult,
+    > = LIBCUDA.get(b"cuMemAllocFromPoolAsync").unwrap();
+
+    let result = func(dptr, pool, bytesize, stream);
+    eprintln!(
+        "cuMemAllocFromPoolAsync(dptr: {:?}, pool: {:?}, bytesize: {:?}, stream: {:?}) -> {:?}",
+        dptr, pool, bytesize, stream, result
     );
     result
 }
