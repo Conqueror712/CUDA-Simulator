@@ -16,7 +16,7 @@ lazy_static::lazy_static! {
 
 pub type CSizeT = usize;
 pub type CSsizeT = isize;
-type c_size_t = c_ulong;
+// type c_size_t = c_ulong;
 
 #[no_mangle]
 pub unsafe extern "C" fn cuGetProcAddress_v2(
@@ -1207,7 +1207,7 @@ pub unsafe extern "C" fn cuLinkAddData(
     state: CUlinkState,
     type_: CUjitInputType,
     data: *mut std::os::raw::c_void,
-    size: std::os::raw::c_size_t,
+    size: CSizeT,
     name: *const c_char,
     numOptions: std::os::raw::c_uint,
     options: *mut CUjit_option,
@@ -1218,7 +1218,7 @@ pub unsafe extern "C" fn cuLinkAddData(
             CUlinkState,
             CUjitInputType,
             *mut std::os::raw::c_void,
-            std::os::raw::c_size_t,
+            CSizeT,
             *const c_char,
             std::os::raw::c_uint,
             *mut CUjit_option,
@@ -1282,13 +1282,13 @@ pub unsafe extern "C" fn cuLinkAddFile(
 pub unsafe extern "C" fn cuLinkComplete(
     state: CUlinkState,
     cubinOut: *mut *mut std::os::raw::c_void,
-    sizeOut: *mut std::os::raw::c_size_t,
+    sizeOut: *mut CSizeT
 ) -> CUresult {
     let func: libloading::Symbol<
         unsafe extern "C" fn(
             CUlinkState,
             *mut *mut std::os::raw::c_void,
-            *mut std::os::raw::c_size_t,
+            *mut CSizeT,
         ) -> CUresult,
     > = LIBCUDA.get(b"cuLinkComplete").unwrap();
 
