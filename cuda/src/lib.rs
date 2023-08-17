@@ -1206,7 +1206,7 @@ pub unsafe extern "C" fn cuLinkAddData(
     state: CUlinkState,
     type_: CUjitInputType,
     data: *mut std::os::raw::c_void,
-    size: std::os::raw::c_size_t,
+    size: std::os::raw::CSizeT,
     name: *const c_char,
     numOptions: std::os::raw::c_uint,
     options: *mut CUjit_option,
@@ -1217,7 +1217,7 @@ pub unsafe extern "C" fn cuLinkAddData(
             CUlinkState,
             CUjitInputType,
             *mut std::os::raw::c_void,
-            std::os::raw::c_size_t,
+            std::os::raw::CSizeT,
             *const c_char,
             std::os::raw::c_uint,
             *mut CUjit_option,
@@ -1281,13 +1281,13 @@ pub unsafe extern "C" fn cuLinkAddFile(
 pub unsafe extern "C" fn cuLinkComplete(
     state: CUlinkState,
     cubinOut: *mut *mut std::os::raw::c_void,
-    sizeOut: *mut std::os::raw::c_size_t,
+    sizeOut: *mut std::os::raw::CSizeT,
 ) -> CUresult {
     let func: libloading::Symbol<
         unsafe extern "C" fn(
             CUlinkState,
             *mut *mut std::os::raw::c_void,
-            *mut std::os::raw::c_size_t,
+            *mut std::os::raw::CSizeT,
         ) -> CUresult,
     > = LIBCUDA.get(b"cuLinkComplete").unwrap();
 
@@ -1541,49 +1541,14 @@ pub unsafe extern "C" fn cuMemAllocAsync(
     result
 }
 
-pub unsafe extern "C" fn cuMemAllocAsync(
-    dptr: *mut CUdeviceptr,
-    bytesize: usize,
-    stream: CUstream,
-) -> CUresult {
-    let func: libloading::Symbol<
-        unsafe extern "C" fn(*mut CUdeviceptr, usize, CUstream) -> CUresult,
-    > = LIBCUDA.get(b"cuMemAllocAsync").unwrap();
-
-    let result = func(dptr, bytesize, stream);
-    eprintln!(
-        "cuMemAllocAsync(dptr: {:?}, bytesize: {:?}, stream: {:?}) -> {:?}",
-        dptr, bytesize, stream, result
-    );
-    result
-}
-
 pub unsafe extern "C" fn cuMemAllocFromPoolAsync(
     dptr: *mut CUdeviceptr,
-    pool: CUmemPool,
+    pool: CUmemoryPool,
     bytesize: usize,
     stream: CUstream,
 ) -> CUresult {
     let func: libloading::Symbol<
-        unsafe extern "C" fn(*mut CUdeviceptr, CUmemPool, usize, CUstream) -> CUresult,
-    > = LIBCUDA.get(b"cuMemAllocFromPoolAsync").unwrap();
-
-    let result = func(dptr, pool, bytesize, stream);
-    eprintln!(
-        "cuMemAllocFromPoolAsync(dptr: {:?}, pool: {:?}, bytesize: {:?}, stream: {:?}) -> {:?}",
-        dptr, pool, bytesize, stream, result
-    );
-    result
-}
-
-pub unsafe extern "C" fn cuMemAllocFromPoolAsync(
-    dptr: *mut CUdeviceptr,
-    pool: CUmemPool,
-    bytesize: usize,
-    stream: CUstream,
-) -> CUresult {
-    let func: libloading::Symbol<
-        unsafe extern "C" fn(*mut CUdeviceptr, CUmemPool, usize, CUstream) -> CUresult,
+        unsafe extern "C" fn(*mut CUdeviceptr, CUmemoryPool, usize, CUstream) -> CUresult,
     > = LIBCUDA.get(b"cuMemAllocFromPoolAsync").unwrap();
 
     let result = func(dptr, pool, bytesize, stream);
