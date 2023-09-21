@@ -1,20 +1,8 @@
-# 零、前言
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Conqueror712/OSPP-THU-CUDA) ![GitHub repo size](https://img.shields.io/github/repo-size/Conqueror712/OSPP-THU-CUDA) [![](https://img.shields.io/badge/Home-@落雨乄天珀夜-red.svg)](conqueror712.github.io) [![](https://img.shields.io/badge/Blog-@Conqueror712-green.svg)](juejin.cn/user/1297878069809725/posts)
 
-此demo的Github仓库（持续更新）：<https://github.com/Conqueror712/CUDA-Practice>
+---
 
-📕**欢迎访问**：
-
-> 个人博客：[conqueror712.github.io/](https://link.juejin.cn?target=https%3A%2F%2Fconqueror712.github.io%2F)
->
-> 知乎：[www.zhihu.com/people/soeu…](https://link.juejin.cn?target=https%3A%2F%2Fwww.zhihu.com%2Fpeople%2Fsoeur712%2Fposts)
->
-> Bilibili：[space.bilibili.com/57089326](https://link.juejin.cn?target=https%3A%2F%2Fspace.bilibili.com%2F57089326)
->
-> 掘金：[juejin.cn/user/129787…](https://juejin.cn/user/1297878069809725/posts)
-
-有任何疏忽和错误欢迎各位读者指出！
-
-欢迎Star本项目repo⭐：<https://github.com/Conqueror712/CUDA-Simulator/tree/main/cargo_demo>
+> 以下是环境配置的流程
 
 # 一、Linux环境选择
 
@@ -59,8 +47,6 @@
 
 获取权限（可选）：`sudo su`
 
-~CUDA Toolkit下载：`sudo apt install nvidia-cuda-toolkit --fix-missing`~
-
 # 四、CUDA 12.2下载安装：
 
 ## 方式一：
@@ -102,23 +88,12 @@
 > ![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/47b0d93c12c1454b9d20fda8e583febd~tplv-k3u1fbpfcp-watermark.image?)
 ***
 
-> （此步骤不必要）添加config文件配置镜像源，具体位置在/home/.cargo/config，配置文件e.g.如下：
->
->     [source.crates-io]
->     registry = "https://github.com/rust-lang/crates.io-index"
->     # 指定镜像
->     replace-with = 'tuna'
->     # 清华大学
->     [source.tuna]
->     registry = "https://mirrors.tuna.tsinghua.edu.cn/git/crates.io-index.git"
 
 # 六、克隆仓库 + 环境变量
 
 `git clone https://github.com/Conqueror712/CUDA-Simulator.git`
 
-配置环境变量，用nano写入`nano ~/.bashrc`；
-
-写入后保存`source ~/.bashrc`（这一步有时不做也可以，但推荐做）：
+配置环境变量，用nano写入`nano ~/.bashrc`，写入后保存`source ~/.bashrc`
 
     export PATH=/usr/local/cuda-12.2/bin${PATH:+:${PATH}}
     export LD_LIBRARY_PATH=/usr/local/cuda-12.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
@@ -148,7 +123,7 @@
 
     ![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/eadc237df6f9445999b22761abab2b88~tplv-k3u1fbpfcp-watermark.image?)
 
-4.  之后往`lib.rs中添加自己的实现即可`（未完待续，敬请期待下篇）
+4.  之后往`lib.rs中添加自己的实现即可`
 
 ***
 
