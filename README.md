@@ -1,9 +1,3 @@
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Conqueror712/OSPP-THU-CUDA) ![GitHub repo size](https://img.shields.io/github/repo-size/Conqueror712/OSPP-THU-CUDA) [![](https://img.shields.io/badge/Home-@落雨乄天珀夜-red.svg)](conqueror712.github.io) [![](https://img.shields.io/badge/Blog-@Conqueror712-green.svg)](juejin.cn/user/1297878069809725/posts)
-
----
-
-> 以下是环境配置的流程
-
 # 一、Linux环境选择
 
 首先准备一个带NVIDIA GPU的Linux环境；
